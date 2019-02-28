@@ -2,6 +2,7 @@
 #import "XMPPRoom.h"
 #import "XMPPIDTracker.h"
 #import "XMPPMessage+XEP0045.h"
+#import "../XEP-0085/XMPPMessage+XEP_0085.h"
 #import "XMPPLogging.h"
 
 
@@ -1216,9 +1217,11 @@ enum XMPPRoomState
         roomSubject = [message subject];
         [multicastDelegate xmppRoomDidChangeSubject:self];
     }
-	else
+	else if ([message hasChatState])
 	{
 		// Todo... Handle other types of messages.
+		XMPPLogInfo(@"chat state processing");
+		[multicastDelegate xmppRoom:self didReceiveChatStateMessage:message fromOccupant:from];
 	}
 }
 
