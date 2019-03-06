@@ -533,6 +533,7 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 	NSDate *minLocalTimestamp = [remoteTimestamp dateByAddingTimeInterval:-60];
 	NSDate *maxLocalTimestamp = [remoteTimestamp dateByAddingTimeInterval: 60];
 	
+	/*
 	NSString *predicateFormat = @"    body == %@ "
 	                            @"AND jidStr == %@ "
 	                            @"AND streamBareJidStr == %@ "
@@ -553,13 +554,41 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 		
 	NSError *error = nil;
 	NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
+	*/
+	
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:messageEntity.name];
+	
+	NSError *error = nil;
+	NSArray * result = [moc executeFetchRequest:fetchRequest error:&error];
+	
+	__block BOOL retVal = NO;
+	[result enumerateObjectsUsingBlock:^(XMPPRoomMessageCoreDataStorageObject * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+
+		if (([obj.body isEqualToString:messageBody]
+			 && [obj.jid isEqualToJID:messageJID]
+			 && [obj.streamBareJidStr isEqualToString:streamBareJidStr]
+			 && (
+				 [obj.remoteTimestamp isEqualToDate:remoteTimestamp]
+				 || (obj.remoteTimestamp == nil
+					 && obj.localTimestamp.timeIntervalSince1970 > minLocalTimestamp.timeIntervalSince1970
+					 && obj.localTimestamp.timeIntervalSince1970 < maxLocalTimestamp.timeIntervalSince1970
+					 )
+				 )
+			 )
+			|| [obj.message.elementID isEqualToString:message.elementID]) {
+			
+			retVal = YES;
+		}
+		*stop = retVal;
+	}];
 	
 	if (error)
 	{
 		XMPPLogError(@"%@: %@ - Fetch error: %@", THIS_FILE, THIS_METHOD, error);
 	}
 	
-	return ([results count] > 0);
+	return retVal;
+	//return ([results count] > 0);
 }
 
 /**
