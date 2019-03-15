@@ -18,21 +18,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (XMPPvCardTempTel *)vCardTelFromElement:(NSXMLElement *)elem;
 
-@property (nonatomic, assign)   BOOL isHome;
-@property (nonatomic, assign)   BOOL isWork;
-@property (nonatomic, assign)   BOOL isVoice;
-@property (nonatomic, assign)   BOOL isFax;
-@property (nonatomic, assign)   BOOL isPager;
-@property (nonatomic, assign)   BOOL hasMessaging;
-@property (nonatomic, assign)   BOOL isCell;
-@property (nonatomic, assign)   BOOL isVideo;
-@property (nonatomic, assign)   BOOL isBBS;
-@property (nonatomic, assign)   BOOL isModem;
-@property (nonatomic, assign)   BOOL isISDN;
-@property (nonatomic, assign)   BOOL isPCS;
-@property (nonatomic, assign)   BOOL isPreferred;
+@property (nonatomic, readonly)   BOOL isHome;
+@property (nonatomic, readonly)   BOOL isWork;
+@property (nonatomic, readonly)   BOOL isVoice;
+@property (nonatomic, readonly)   BOOL isFax;
+@property (nonatomic, readonly)   BOOL isPager;
+@property (nonatomic, readonly)   BOOL hasMessaging;
+@property (nonatomic, readonly)   BOOL isCell;
+@property (nonatomic, readonly)   BOOL isVideo;
+@property (nonatomic, readonly)   BOOL isBBS;
+@property (nonatomic, readonly)   BOOL isModem;
+@property (nonatomic, readonly)   BOOL isISDN;
+@property (nonatomic, readonly)   BOOL isPCS;
+@property (nonatomic, readonly)   BOOL isPreferred;
 
 @property (nonatomic, nullable) NSString *number;
+
++ (instancetype)vCardTempHomeVoiceNumber:(NSString *)number;
++ (instancetype)vCardTempWorkVoiceNumber:(NSString *)number;
 
 @end
 NS_ASSUME_NONNULL_END

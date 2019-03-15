@@ -315,7 +315,18 @@ NSString *const kXMPPvCardTempElement = @"vCard";
 - (void)clearLabels { }
 
 
-- (NSArray *)telecomsAddresses { return nil; }
+ - (NSArray *)telecomsAddresses {
+    
+    NSMutableArray *result = [NSMutableArray new];
+    NSArray *tels = [self elementsForName:@"TEL"];
+    for (NSXMLElement *tel in tels) {
+        XMPPvCardTempTel *vCardTempTel = [XMPPvCardTempTel vCardTelFromElement:tel];
+        [result addObject:vCardTempTel];
+    }
+    
+    return result;
+}
+
 - (void)addTelecomsAddress:(XMPPvCardTempTel *)tel { }
 - (void)removeTelecomsAddress:(XMPPvCardTempTel *)tel { }
 - (void)setTelecomsAddresses:(NSArray *)tels { }

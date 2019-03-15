@@ -57,6 +57,21 @@
 	return (XMPPvCardTempTel *)elem;
 }
 
++ (instancetype)vCardTempHomeVoiceNumber:(NSString *)number {
+    XMPPvCardTempTel *vCardTEmpTel = [[XMPPvCardTempTel alloc] initWithName:@"TEL"];
+    [vCardTEmpTel setIsHome:YES];
+    [vCardTEmpTel setIsVoice:YES];
+    [vCardTEmpTel setNumber:number];
+    return vCardTEmpTel;
+}
+
++ (instancetype)vCardTempWorkVoiceNumber:(NSString *)number {
+    XMPPvCardTempTel *vCardTEmpTel = [[XMPPvCardTempTel alloc] initWithName:@"TEL"];
+    [vCardTEmpTel setIsWork:YES];
+    [vCardTEmpTel setIsVoice:YES];
+    [vCardTEmpTel setNumber:number];
+    return vCardTEmpTel;
+}
 
 #pragma mark -
 #pragma mark Getter/setter methods
